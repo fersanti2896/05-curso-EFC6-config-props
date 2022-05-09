@@ -1,0 +1,47 @@
+﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PeliculasWebAPI.DTOs;
+using PeliculasWebAPI.Entidades;
+
+namespace PeliculasWebAPI.Controllers {
+    [ApiController]
+    [Route("api/actores")]
+    public class ActoresController : ControllerBase {
+        private readonly ApplicationDBContext context;
+        private readonly IMapper mapper;
+
+        public ActoresController(ApplicationDBContext context, IMapper mapper) {
+            this.context = context;
+            this.mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<ActorDTO>> Get() {
+            var actores = await context.Actores
+                                /* Con Select devolvemos solo las prop que nos interesan */
+                                /* Envés de que mapee a un tipo anonimo, mapea a ActorDTO
+                                 * sin el mapper */
+                                /* .Select(a => new ActorDTO {
+                                    Id     = a.Id,
+                                    Nombre = a.Nombre,
+                                })*/
+
+                                /* Con Mapper */
+                                .ProjectTo<ActorDTO>(mapper.ConfigurationProvider)
+                                .ToListAsync();
+
+            return actores;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post(ActorCreacionDTO actorCreacionDTO) {
+            var actor = mapper.Map<Actor>(actorCreacionDTO);
+            context.Add(actor);
+
+            await context.SaveChangesAsync();
+            return Ok();
+        }
+    }
+}
