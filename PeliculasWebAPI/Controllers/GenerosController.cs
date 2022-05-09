@@ -78,5 +78,21 @@ namespace PeliculasWebAPI.Controllers {
 
             return Ok();
         }
+
+        [HttpPost("agregar2")]
+        public async Task<ActionResult> Agregar2(int id) {
+            var genero = await context.Generos
+                                      .AsTracking()
+                                      .FirstOrDefaultAsync(g => g.Identificador == id);
+
+            if (genero is null) {
+                return NotFound();
+            }
+
+            genero.Nombre += " 2";
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }

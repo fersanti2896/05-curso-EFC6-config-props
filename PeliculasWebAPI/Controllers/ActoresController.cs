@@ -43,5 +43,41 @@ namespace PeliculasWebAPI.Controllers {
             await context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> PutConectado(ActorCreacionDTO actorCreacionDTO, int id) { 
+            var actorDB = await context.Actores
+                                       .AsTracking()
+                                       .FirstOrDefaultAsync(act => act.Id == id);
+
+            if (actorDB is null) {
+                return NotFound();
+            }
+
+            /* Automapper nos permite mapear de un objeto a otro */
+            actorDB = mapper.Map(actorCreacionDTO, actorDB);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPut("desconectado/{id:int}")]
+        public async Task<ActionResult> PutDesconectado(ActorCreacionDTO actorCreacionDTO, int id) {
+            var existActor = await context.Actores
+                                    .AnyAsync(act => act.Id == id);
+
+            if (!existActor) { 
+                return NoContent();
+            }
+
+            var actor = mapper.Map<Actor>(actorCreacionDTO);
+            actor.Id = id;
+
+            /* Se actualiza todas las propiedades del objeto actor */
+            context.Update(actor);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
