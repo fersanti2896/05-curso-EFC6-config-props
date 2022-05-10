@@ -16,7 +16,6 @@ namespace PeliculasWebAPI.Controllers {
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get() {
             return await context.Generos
-                                .Where(gen => !gen.EstaBorrado)
                                 .OrderBy(g => g.Nombre)
                                 .ToListAsync();
         }
@@ -125,6 +124,24 @@ namespace PeliculasWebAPI.Controllers {
             }
 
             genero.EstaBorrado = true;
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        /* Restaura un elemento borrado de manera temporal */
+        [HttpPost("restaurar/{id:int}")]
+        public async Task<ActionResult> PostRestaurar(int id) {
+            var genero = await context.Generos
+                                      .IgnoreQueryFilters()
+                                      .AsTracking()
+                                      .FirstOrDefaultAsync(gen => gen.Identificador == id);
+
+            if (genero is null) {
+                return NotFound();
+            }
+
+            genero.EstaBorrado = false;
             await context.SaveChangesAsync();
 
             return Ok();

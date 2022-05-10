@@ -11,6 +11,10 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
             /* Hacemos el atributo identificador de la clase Genero llave primaria */
             builder.HasKey(prop => prop.Identificador);
 
+            /* Hace que cuando se hace una peticion get, se omiten los datos que 
+             * tiene como status borrado */
+            builder.HasQueryFilter(gen => !gen.EstaBorrado);
+
             /* Damos propiedades al campo Nombre de la clase Genero */
             builder.Property(prop => prop.Nombre)
                    .HasMaxLength(150)
