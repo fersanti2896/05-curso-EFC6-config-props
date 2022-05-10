@@ -16,6 +16,7 @@ namespace PeliculasWebAPI.Controllers {
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get() {
             return await context.Generos
+                                .Where(gen => !gen.EstaBorrado)
                                 .OrderBy(g => g.Nombre)
                                 .ToListAsync();
         }
@@ -90,6 +91,40 @@ namespace PeliculasWebAPI.Controllers {
             }
 
             genero.Nombre += " 2";
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        /* Borrado normal */
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult> Delete(int id) {
+            var genero = await context.Generos
+                                      .FirstOrDefaultAsync(gen => gen.Identificador == id);
+
+            if (genero is null) {
+                return NotFound();
+            }
+
+            context.Remove(genero);
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        /* Borrado lógico, se refiere a que no remueve el registro de la tabla
+           sino solo se marca como un status de borrado */
+        [HttpDelete("borradoLog/{id:int}")]
+        public async Task<ActionResult> DeleteSuave(int id) {
+            var genero = await context.Generos
+                                      .AsTracking()
+                                      .FirstOrDefaultAsync(gen => gen.Identificador == id);
+
+            if (genero is null) {
+                return NotFound();
+            }
+
+            genero.EstaBorrado = true;
             await context.SaveChangesAsync();
 
             return Ok();
