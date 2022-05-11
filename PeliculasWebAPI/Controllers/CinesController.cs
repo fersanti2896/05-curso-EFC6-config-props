@@ -52,21 +52,22 @@ namespace PeliculasWebAPI.Controllers {
             var ubicacionCine = geoFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
 
             var cine = new Cine() {
-                Nombre = "Cinemex",
+                Nombre = "Cinemex con Mon",
                 Ubicacion = ubicacionCine,
-                CineOferta = new CineOferta()
-                {
+                CineOferta = new CineOferta() {
                     DescuentoPorcentaje = 5,
                     FechaInicio = DateTime.Today,
                     FechaFin = DateTime.Today.AddDays(7)
                 },
                 SalaCine = new HashSet<SalaCine>() {
                     new SalaCine() {
-                        Precio = 200,
+                        Precio       = 200,
+                        Moneda       = Moneda.PesoMex,
                         TipoSalaCine = TipoSalaCine.DosD
                     },
                     new SalaCine() {
-                        Precio = 350,
+                        Precio       = 350,
+                        Moneda       = Moneda.DolarEUA,
                         TipoSalaCine = TipoSalaCine.TresD
                     }
                 }

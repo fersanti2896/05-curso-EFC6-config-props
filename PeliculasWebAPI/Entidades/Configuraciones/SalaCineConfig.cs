@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using PeliculasWebAPI.Entidades.Conversiones;
 
 namespace PeliculasWebAPI.Entidades.Configuraciones {
     public class SalaCineConfig : IEntityTypeConfiguration<SalaCine> {
@@ -9,7 +10,11 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
                    .HasPrecision(9, scale: 3);
 
             builder.Property(prop => prop.TipoSalaCine)
-                   .HasDefaultValue(TipoSalaCine.DosD);
+                   .HasDefaultValue(TipoSalaCine.DosD)
+                   .HasConversion<string>();
+
+            builder.Property(prop => prop.Moneda)
+                   .HasConversion<MonedaSimboloConvert>();
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetTopologySuite.Geometries;
 using PeliculasWebAPI;
@@ -12,9 +13,10 @@ using PeliculasWebAPI;
 namespace PeliculasWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220511060929_EjemploConversion")]
+    partial class EjemploConversion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -548,10 +550,6 @@ namespace PeliculasWebAPI.Migrations
                     b.Property<int>("CineId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Moneda")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("Precio")
                         .HasPrecision(9, 3)
                         .HasColumnType("decimal(9,3)");
@@ -573,7 +571,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 5,
                             CineId = 3,
-                            Moneda = "",
                             Precio = 250m,
                             TipoSalaCine = "DosD"
                         },
@@ -581,7 +578,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 6,
                             CineId = 3,
-                            Moneda = "",
                             Precio = 330m,
                             TipoSalaCine = "TresD"
                         },
@@ -589,7 +585,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 7,
                             CineId = 3,
-                            Moneda = "",
                             Precio = 450m,
                             TipoSalaCine = "Premium"
                         },
@@ -597,7 +592,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 8,
                             CineId = 4,
-                            Moneda = "",
                             Precio = 250m,
                             TipoSalaCine = "DosD"
                         },
@@ -605,7 +599,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 1,
                             CineId = 1,
-                            Moneda = "",
                             Precio = 220m,
                             TipoSalaCine = "DosD"
                         },
@@ -613,7 +606,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 2,
                             CineId = 1,
-                            Moneda = "",
                             Precio = 320m,
                             TipoSalaCine = "TresD"
                         },
@@ -621,7 +613,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 3,
                             CineId = 2,
-                            Moneda = "",
                             Precio = 200m,
                             TipoSalaCine = "DosD"
                         },
@@ -629,7 +620,6 @@ namespace PeliculasWebAPI.Migrations
                         {
                             Id = 4,
                             CineId = 2,
-                            Moneda = "",
                             Precio = 290m,
                             TipoSalaCine = "TresD"
                         });
