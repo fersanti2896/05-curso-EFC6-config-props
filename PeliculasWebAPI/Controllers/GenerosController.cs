@@ -15,6 +15,13 @@ namespace PeliculasWebAPI.Controllers {
         /* endpoint */
         [HttpGet]
         public async Task<IEnumerable<Genero>> Get() {
+            context.Logs.Add(new Log {
+                                Id = Guid.NewGuid(),
+                                Mensaje = "Ejecutando el método GenerosController.Get()"
+                        });
+
+            await context.SaveChangesAsync();
+
             return await context.Generos
                                 .OrderBy(g => g.Nombre)
                                 .ToListAsync();

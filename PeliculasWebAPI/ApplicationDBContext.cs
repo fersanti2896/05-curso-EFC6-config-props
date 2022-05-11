@@ -32,6 +32,10 @@ namespace PeliculasWebAPI {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
             SeedingModuloConsulta.Seed(modelBuilder);
+
+            /* modelBuilder.Entity<Log>()
+                        .Property(l => l.Id)
+                        .ValueGeneratedNever(); */
         }
 
         public DbSet<Genero> Generos { get; set; }
