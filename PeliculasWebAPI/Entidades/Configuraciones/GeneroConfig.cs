@@ -20,6 +20,11 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
                    .HasMaxLength(150)
                    .IsRequired();
 
+            /* Con esto damos el indice a la propiedad Nombre con tal de que no haya un
+             * genero con el mismo nombre*/
+            /* builder.HasIndex(g => g.Nombre)
+                   .IsUnique(); */
+
         }
     }
 }

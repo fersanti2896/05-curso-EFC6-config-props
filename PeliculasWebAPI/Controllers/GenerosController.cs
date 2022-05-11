@@ -64,16 +64,19 @@ namespace PeliculasWebAPI.Controllers {
 
         [HttpPost]
         public async Task<ActionResult> Post(Genero genero) {
-            var status = context.Entry(genero).State;
+            var existeGeNom = await context.Generos
+                                           .AnyAsync(g => g.Nombre == genero.Nombre);
+
+            if (existeGeNom) {
+                return BadRequest("Ya existe un Genero con ese nombre: " + genero.Nombre);
+            }
             
             /* Guarda el status */
             context.Add(genero);
-            var status2 = context.Entry(genero).State;
 
             /* Agrega el estado genero a la tabla Generos */
             await context.SaveChangesAsync();
-            var status3 = context.Entry(genero).State;
-
+            
             return Ok();
         }
 
