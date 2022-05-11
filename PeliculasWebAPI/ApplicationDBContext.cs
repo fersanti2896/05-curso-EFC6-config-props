@@ -49,6 +49,16 @@ namespace PeliculasWebAPI {
             modelBuilder.Entity<PeliculaConteos>()
                         .HasNoKey()
                         .ToView("PeliculasConteos");
+
+            /* Configuracion para una tipo de dato URL */
+            foreach (var tipoEntidad in modelBuilder.Model.GetEntityTypes()) {
+                foreach (var prop in tipoEntidad.GetProperties()) { 
+                    if(prop.ClrType == typeof(string) && prop.Name.Contains("URL", StringComparison.CurrentCultureIgnoreCase)) {
+                        prop.SetIsUnicode(false);
+                        prop.SetMaxLength(600);
+                    }
+                }
+            }
         }
 
         public DbSet<Genero> Generos { get; set; }

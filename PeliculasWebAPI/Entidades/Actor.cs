@@ -22,7 +22,8 @@ namespace PeliculasWebAPI.Entidades {
         //[Column(TypeName = "Date")]
         public DateTime? FechaNac { get; set; }
         public HashSet<PeliculaActor> PeliculasActores { get; set; }
-        
+        public string FotoURL { get; set; }
+
         /* Evitamos mapear la propiedad en la tabla */
         [NotMapped]
         public int? Edad { 
