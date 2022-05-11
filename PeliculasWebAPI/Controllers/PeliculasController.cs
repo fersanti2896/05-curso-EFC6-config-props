@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PeliculasWebAPI.DTOs;
 using PeliculasWebAPI.Entidades;
+using PeliculasWebAPI.Entidades.SinLlaves;
 
 namespace PeliculasWebAPI.Controllers {
     [ApiController]
@@ -209,6 +210,11 @@ namespace PeliculasWebAPI.Controllers {
             await context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        [HttpGet("peliculasConteos")]
+        public async Task<ActionResult<IEnumerable<PeliculaConteos>>> GetPeliculasConteos() {
+            return await context.PeliculasConteos.ToListAsync();
         }
     }
 }

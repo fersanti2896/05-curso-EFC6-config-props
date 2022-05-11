@@ -45,6 +45,10 @@ namespace PeliculasWebAPI {
                         .HasNoKey() /* Hace que la entidad no tenga llave primaria */
                         .ToSqlQuery("SELECT Id, Nombre FROM Cines")
                         .ToView(null); /* Evita que se agruege la tabla con el esquema a la BD */
+
+            modelBuilder.Entity<PeliculaConteos>()
+                        .HasNoKey()
+                        .ToView("PeliculasConteos");
         }
 
         public DbSet<Genero> Generos { get; set; }
@@ -56,5 +60,6 @@ namespace PeliculasWebAPI {
         public DbSet<PeliculaActor> PeliculasActores { get; set; }
         public DbSet<Log> Logs { get; set; }
         public DbSet<CineSinUbicacion> CineSinUbicacion { get; set; }
+        public DbSet<PeliculaConteos> PeliculasConteos { get; set; }
     }
 }
