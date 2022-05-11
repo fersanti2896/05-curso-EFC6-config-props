@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PeliculasWebAPI.Entidades {
     // [Table("TablaGeneros", Schema = "peliculas")]
-    [Index(nameof(Nombre), IsUnique = true)]
+    // [Index(nameof(Nombre), IsUnique = true)]
     public class Genero {
         public int Identificador { get; set; }
         //public int Id { get; set; }
