@@ -2,6 +2,7 @@
 using PeliculasWebAPI.Entidades;
 using PeliculasWebAPI.Entidades.Configuraciones;
 using PeliculasWebAPI.Entidades.Seeding;
+using PeliculasWebAPI.Entidades.SinLlaves;
 using System.Reflection;
 
 namespace PeliculasWebAPI {
@@ -39,6 +40,11 @@ namespace PeliculasWebAPI {
 
             /* Ignorando una clase */
             // modelBuilder.Ignore<Direccion>();
+
+            modelBuilder.Entity<CineSinUbicacion>()
+                        .HasNoKey() /* Hace que la entidad no tenga llave primaria */
+                        .ToSqlQuery("SELECT Id, Nombre FROM Cines")
+                        .ToView(null); /* Evita que se agruege la tabla con el esquema a la BD */
         }
 
         public DbSet<Genero> Generos { get; set; }
@@ -49,5 +55,6 @@ namespace PeliculasWebAPI {
         public DbSet<SalaCine> SalasCines { get; set; }
         public DbSet<PeliculaActor> PeliculasActores { get; set; }
         public DbSet<Log> Logs { get; set; }
+        public DbSet<CineSinUbicacion> CineSinUbicacion { get; set; }
     }
 }

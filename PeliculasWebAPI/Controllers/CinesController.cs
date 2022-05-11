@@ -6,6 +6,7 @@ using NetTopologySuite;
 using NetTopologySuite.Geometries;
 using PeliculasWebAPI.DTOs;
 using PeliculasWebAPI.Entidades;
+using PeliculasWebAPI.Entidades.SinLlaves;
 
 namespace PeliculasWebAPI.Controllers {
     [ApiController]
@@ -30,16 +31,16 @@ namespace PeliculasWebAPI.Controllers {
 
         [HttpGet("cercanos")]
         public async Task<ActionResult> Get(double lat, double lng) {
-            var geoFactory   = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
-            var miUbicacion  = geoFactory.CreatePoint(new Coordinate(lat, lng));
+            var geoFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var miUbicacion = geoFactory.CreatePoint(new Coordinate(lat, lng));
             var distanciaMax = 2000;
 
             var cines = await context.Cines
                                      .OrderBy(c => c.Ubicacion.Distance(miUbicacion))
                                      .Where(c => c.Ubicacion.IsWithinDistance(miUbicacion, distanciaMax))
                                      .Select(c => new {
-                                        Nombre = c.Nombre,
-                                        Distancia = Math.Round(c.Ubicacion.Distance(miUbicacion))
+                                         Nombre = c.Nombre,
+                                         Distancia = Math.Round(c.Ubicacion.Distance(miUbicacion))
                                      })
                                      .ToListAsync();
 
@@ -48,7 +49,7 @@ namespace PeliculasWebAPI.Controllers {
 
         [HttpPost]
         public async Task<ActionResult> Post() {
-            var geoFactory    = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
+            var geoFactory = NtsGeometryServices.Instance.CreateGeometryFactory(srid: 4326);
             var ubicacionCine = geoFactory.CreatePoint(new Coordinate(-69.896979, 18.476276));
 
             var cine = new Cine() {
@@ -86,6 +87,13 @@ namespace PeliculasWebAPI.Controllers {
 
             await context.SaveChangesAsync();
             return Ok();
+        }
+
+        [HttpGet("sinUbicacion")]
+        public async Task<IEnumerable<CineSinUbicacion>> GetCinesUbicacion(){
+            /* Propiedad set permite crear un DbContext en tiempo real */
+            // return await context.Set<CineSinUbicacion>().ToListAsync();
+            return await context.CineSinUbicacion.ToListAsync();
         }
     }
 }
