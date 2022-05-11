@@ -30,13 +30,23 @@ namespace PeliculasWebAPI.Controllers {
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Genero>> PorId(int id) {
             var genero = await context.Generos
-                                .FirstOrDefaultAsync(p => p.Identificador == id);
+                                      .AsTracking()
+                                      .FirstOrDefaultAsync(p => p.Identificador == id);
 
             if (genero is null) {
                 return NotFound();
             }
 
-            return genero;
+            /* Accediendo a la fecha de creacion del genero */
+            var fechaCreacion = context.Entry(genero)
+                                       .Property<DateTime>("FechaCreacion")
+                                       .CurrentValue;
+
+            return Ok(new { 
+                        Id     = genero.Identificador,
+                        Nombre = genero.Nombre,
+                        fechaCreacion
+                   });
         }
 
         /* Filtración con Ordenamiento */

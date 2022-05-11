@@ -26,6 +26,11 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
                    .IsUnique()
                    .HasFilter("EstaBorrado = 'false'");
 
+            /* Propiedad sombra */
+            builder.Property<DateTime>("FechaCreacion")
+                   .HasDefaultValueSql("GetDate()")
+                   .HasColumnType("datetime2");
+
         }
     }
 }
