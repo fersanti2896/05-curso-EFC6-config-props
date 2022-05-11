@@ -22,5 +22,25 @@ namespace PeliculasWebAPI.Entidades {
         //[Column(TypeName = "Date")]
         public DateTime? FechaNac { get; set; }
         public HashSet<PeliculaActor> PeliculasActores { get; set; }
+        
+        /* Evitamos mapear la propiedad en la tabla */
+        [NotMapped]
+        public int? Edad { 
+            get {
+                if(!FechaNac.HasValue)
+                    return null;
+
+                var fechaNac = FechaNac.Value;
+                var edad     = DateTime.Today.Year - fechaNac.Year;
+
+                if(new DateTime(DateTime.Today.Year, fechaNac.Month, fechaNac.Day) > DateTime.Today) {
+                    edad--;
+                }
+
+                return edad;
+            }
+        }
+
+        public Direccion Direccion { get; set; }
     }
 }

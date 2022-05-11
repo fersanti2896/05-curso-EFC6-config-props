@@ -16,6 +16,9 @@ namespace PeliculasWebAPI.Entidades.Configuraciones {
              * la propiedad de "date" */
             /* builder.Property(prop => prop.FechaNac)
                       .HasColumnType("date"); */
+
+            builder.Ignore(a => a.Edad);
+            builder.Ignore(a => a.Direccion);
         }
     }
 }

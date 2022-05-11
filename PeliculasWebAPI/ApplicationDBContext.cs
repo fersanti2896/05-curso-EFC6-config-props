@@ -36,6 +36,9 @@ namespace PeliculasWebAPI {
             /* modelBuilder.Entity<Log>()
                         .Property(l => l.Id)
                         .ValueGeneratedNever(); */
+
+            /* Ignorando una clase */
+            // modelBuilder.Ignore<Direccion>();
         }
 
         public DbSet<Genero> Generos { get; set; }
